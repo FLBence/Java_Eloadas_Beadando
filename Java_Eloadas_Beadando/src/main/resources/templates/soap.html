@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SOAP Deviza Árfolyamok</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+<body class="is-preload">
+<div id="wrapper">
+
+    <div id="main">
+        <article id="soap">
+            <h2 class="major">SOAP Árfolyam Lekérdezés</h2>
+
+            <form th:action="@{/soap}" th:object="${param}" method="post" style="margin-bottom:20px;">
+                <label>Deviza:
+                    <select th:field="*{currency}">
+                        <option th:each="c : ${currencies}" th:value="${c}" th:text="${c}">EUR</option>
+                    </select>
+                </label>
+                <label style="margin-left:10px;">Kezdő dátum:
+                    <input type="date" th:field="*{startDate}" required>
+                </label>
+                <label style="margin-left:10px;">Befejező dátum:
+                    <input type="date" th:field="*{endDate}" required>
+                </label>
+                <input type="submit" value="Lekérdez" class="primary" style="margin-left:10px;">
+            </form>
+
+            <div th:if="${error}">
+                <p style="color:red;" th:text="${error}"></p>
+            </div>
+
+            <div th:if="${labels}">
+                <h3>Árfolyam táblázat</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                        <tr><th>Dátum</th><th>Árfolyam</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="label, iterStat : ${labels}">
+                            <td th:text="${label}"></td>
+                            <td th:text="${rates[iterStat.index]}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Grafikon</h3>
+                <canvas id="chartCanvas" width="800" height="400"></canvas>
+
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+                    var labels = /*[[${labels}]]*/ [];
+                    var rates = /*[[${rates}]]*/ [];
+                    if (labels.length > 0) {
+                        const ctx = document.getElementById('chartCanvas').getContext('2d');
+                        new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Árfolyam (HUF)',
+                                    data: rates,
+                                    borderWidth: 2,
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    x: { title: { display: true, text: 'Dátum' } },
+                                    y: { title: { display: true, text: 'Árfolyam' } }
+                                }
+                            }
+                        });
+                    }
+                    /*]]>*/
+                </script>
+            </div>
+
+        </article>
+    </div>
+
+    <footer id="footer">
+        <p class="copyright">&copy; MNB SOAP kliens – Beadandó.</p>
+    </footer>
+</div>
+<div id="bg"></div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
