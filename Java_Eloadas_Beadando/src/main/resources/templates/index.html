@@ -32,10 +32,11 @@
 						<nav>
 							<ul>
 								<li><a href="#intro">Intro</a></li>
-								<li><a href="#work">SOAP</a></li>
-								<li><a href="#about">About</a></li>
+								<li><a href="#soap">SOAP</a></li>
+								<li><a href="#forex-account">Forex</a></li>
 								<li><a href="#contact">Contact</a></li>
-								<!--<li><a href="#elements">Elements</a></li>-->
+								<li><a href="#a">Contact</a></li>
+								<li><a href="#b">Contact</a></li>
 							</ul>
 						</nav>
 					</header>
@@ -52,7 +53,7 @@
 							</article>
 
 						<!-- Work -->
-                        <article id="work">
+                        <article id="soap">
                             <h2 class="major">SOAP Deviza Árfolyam</h2>
                             <span class="image main"><img src="images/pic02.jpg" alt="" /></span>
 
@@ -67,11 +68,18 @@
                         </article>
 
 						<!-- About -->
-							<article id="about">
-								<h2 class="major">About</h2>
-								<span class="image main"><img src="images/pic03.jpg" alt="" /></span>
-								<p>Lorem ipsum dolor sit amet, consectetur et adipiscing elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices. Aliquam libero et malesuada fames ac ante ipsum primis in faucibus. Cras viverra ligula sit amet ex mollis mattis lorem ipsum dolor sit amet.</p>
-							</article>
+							<article id="forex-account">
+                                <h2 class="major">Forex Számlainformációk</h2>
+                                <span class="image main"><img src="images/pic03.jpg" alt="" /></span>
+
+                                <div id="forex-account-container">
+                                    <p>Számlaadatok betöltése...</p>
+                                </div>
+
+                                <ul class="actions">
+                                    <li><button id="loadAccount" class="button primary">Frissítés</button></li>
+                                </ul>
+                            </article>
 
 						<!-- Contact -->
 							<article id="contact">
@@ -364,6 +372,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="/js/breakpoints.min.js"></script>
 			<script src="/js/util.js"></script>
 			<script src="/js/main.js"></script>
+            <script src="/js/ForexAccountData.js"></script>
 
 	</body>
 </html>
