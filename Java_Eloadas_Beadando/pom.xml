@@ -62,6 +62,20 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oanda.v20</groupId>
+            <artifactId>v20</artifactId>
+            <version>3.0.25</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/v20-3.0.25.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

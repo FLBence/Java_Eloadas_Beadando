@@ -34,7 +34,7 @@
 								<li><a href="#intro">Intro</a></li>
 								<li><a href="#soap">SOAP</a></li>
 								<li><a href="#forex-account">Forex</a></li>
-								<li><a href="#contact">Contact</a></li>
+								<li><a href="#forex-price">Forex1</a></li>
 								<li><a href="#a">Contact</a></li>
 								<li><a href="#b">Contact</a></li>
 							</ul>
@@ -80,6 +80,28 @@
                                     <li><button id="loadAccount" class="button primary">Frissítés</button></li>
                                 </ul>
                             </article>
+
+                        <article id="forex-price">
+                            <h2 class="major">Forex Aktuális ár</h2>
+                            <span class="image main"><img src="images/pic03.jpg" alt="" /></span>
+                            <form method="post" th:action="@{/forex-price}">
+                                <label for="instrument">Válaszd ki az instrumentumot:</label>
+                                <select id="instrument" name="instrument">
+                                    <option value="EUR_USD" th:selected="${instrument == 'EUR_USD'}">EUR/USD</option>
+                                    <option value="GBP_USD" th:selected="${instrument == 'GBP_USD'}">GBP/USD</option>
+                                    <option value="USD_JPY" th:selected="${instrument == 'USD_JPY'}">USD/JPY</option>
+                                    <option value="EUR_HUF" th:selected="${instrument == 'EUR_HUF'}">EUR/HUF</option>
+                                </select>
+                                <p></p>
+                                <button type="submit" class="button primary">Ár lekérdezése</button>
+                            </form>
+
+                            <div th:if="${price}">
+                                <h3>Eredmény:</h3>
+                                <p><strong th:text="${instrument}"></strong> aktuális ára:
+                                    <span th:text="${price}">0.0</span></p>
+                            </div>
+                        </article>
 
 						<!-- Contact -->
 							<article id="contact">
@@ -373,6 +395,8 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="/js/util.js"></script>
 			<script src="/js/main.js"></script>
             <script src="/js/ForexAccountData.js"></script>
-
+            <script th:if="${scrollTo != null}">
+            window.location.hash = /*[[${scrollTo}]]*/ '';
+            </script>
 	</body>
 </html>
