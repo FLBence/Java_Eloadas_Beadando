@@ -34,8 +34,8 @@
 								<li><a href="#intro">Intro</a></li>
 								<li><a href="#soap">SOAP</a></li>
 								<li><a href="#forex-account">Forex</a></li>
-								<li><a href="#forex-price">Forex1</a></li>
-								<li><a href="#a">Contact</a></li>
+								<li><a href="#forex-price">Forex-A</a></li>
+								<li><a href="#forex-history">Forex-H</a></li>
 								<li><a href="#b">Contact</a></li>
 							</ul>
 						</nav>
@@ -104,35 +104,50 @@
                         </article>
 
 						<!-- Contact -->
-							<article id="contact">
-								<h2 class="major">Contact</h2>
-								<form method="post" action="#">
-									<div class="fields">
-										<div class="field half">
-											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
-										</div>
-										<div class="field half">
-											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
-										</div>
-										<div class="field">
-											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="4"></textarea>
-										</div>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="primary" /></li>
-										<li><input type="reset" value="Reset" /></li>
-									</ul>
-								</form>
-								<ul class="icons">
-									<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
-							</article>
+                        <article id="forex-history">
+                            <h2>Forex – Historikus árak</h2>
+
+                            <label>Instrumentum:</label>
+                            <select id="histInstrument">
+                                <option value="EUR_USD">EUR/USD</option>
+                                <option value="GBP_USD">GBP/USD</option>
+                                <option value="USD_JPY">USD/JPY</option>
+                                <option value="EUR_HUF">EUR/HUF</option>
+                            </select>
+
+                            <label>Időfelbontás (Granularity):</label>
+                            <select id="histGranularity">
+                                <option value="S5">S5 (5 mp)</option>
+                                <option value="S10">S10 (10 mp)</option>
+                                <option value="S15">S15 (15 mp)</option>
+                                <option value="S30">S30 (30 mp)</option>
+                                <option value="M1">M1 (1 perc)</option>
+                                <option value="M2">M2 (2 perc)</option>
+                                <option value="M4">M4 (4 perc)</option>
+                                <option value="M5">M5 (5 perc)</option>
+                                <option value="M10">M10 (10 perc)</option>
+                                <option value="M15">M15 (15 perc)</option>
+                                <option value="M30">M30 (30 perc)</option>
+                                <option value="H1">H1 (1 óra)</option>
+                                <option value="H2">H2 (2 óra)</option>
+                                <option value="H3">H3 (3 óra)</option>
+                                <option value="H4">H4 (4 óra)</option>
+                                <option value="H6">H6 (6 óra)</option>
+                                <option value="H8">H8 (8 óra)</option>
+                                <option value="H12">H12 (12 óra)</option>
+                                <option value="D">D (1 nap)</option>
+                                <option value="W">W (1 hét)</option>
+                                <option value="M">M (1 hónap)</option>
+                            </select>
+
+                            <button onclick="loadHistory()">Lekérés</button>
+
+                            <table id="historyTable" border="1" style="margin-top:15px;">
+                                <tr><th>Időpont</th><th>Záróár</th></tr>
+                            </table>
+                        </article>
+
+
 
 						<!-- Elements -->
 							<article id="elements">
@@ -395,6 +410,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="/js/util.js"></script>
 			<script src="/js/main.js"></script>
             <script src="/js/ForexAccountData.js"></script>
+            <script src="/js/ForexHistoryData.js"></script>
             <script th:if="${scrollTo != null}">
             window.location.hash = /*[[${scrollTo}]]*/ '';
             </script>
