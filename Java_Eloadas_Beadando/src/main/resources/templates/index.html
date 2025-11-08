@@ -36,7 +36,7 @@
 								<li><a href="#forex-account">Forex</a></li>
 								<li><a href="#forex-price">Forex-A</a></li>
 								<li><a href="#forex-history">Forex-H</a></li>
-								<li><a href="#b">Contact</a></li>
+								<li><a href="#forex-open">Forex-O</a></li>
 							</ul>
 						</nav>
 					</header>
@@ -54,17 +54,60 @@
 
 						<!-- Work -->
                         <article id="soap">
-                            <h2 class="major">SOAP Deviza Árfolyam</h2>
-                            <span class="image main"><img src="images/pic02.jpg" alt="" /></span>
+                            <h2 class="major">SOAP Árfolyam Lekérdezés</h2>
 
-                            <p>
-                                Ezen az oldalon a Magyar Nemzeti Bank hivatalos <strong>SOAP webszolgáltatásából</strong> kérhetsz le devizaárfolyamokat.
-                                A lekérdezéshez kattints az alábbi gombra.
-                            </p>
+                            <form th:action="@{/}" th:object="${param}" method="post">
+                                <label>Deviza:
+                                    <select th:field="*{currency}">
+                                        <option th:each="c : ${currencies}" th:value="${c}" th:text="${c}">EUR</option>
+                                    </select>
+                                </label>
 
-                            <ul class="actions">
-                                <li><a th:href="@{/soap}" class="button primary">SOAP Árfolyam Lekérdezés</a></li>
-                            </ul>
+                                <label>Kezdő dátum:
+                                    <input type="date" th:field="*{startDate}" required>
+                                </label>
+
+                                <label>Befejező dátum:
+                                    <input type="date" th:field="*{endDate}" required>
+                                </label>
+
+                                <input type="submit" class="primary" value="Lekérdez">
+                            </form>
+
+                            <div th:if="${error}">
+                                <p style="color:red;" th:text="${error}"></p>
+                            </div>
+
+                            <div th:if="${labels}">
+                                <h3>Árfolyam Táblázat</h3>
+                                <table>
+                                    <thead>
+                                    <tr><th>Dátum</th><th>Árfolyam</th></tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="label, i : ${labels}">
+                                        <td th:text="${label}"></td>
+                                        <td th:text="${rates[i.index]}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <h3>Grafikon</h3>
+                                <canvas id="chartCanvas" width="800" height="400"></canvas>
+                                <input type="hidden" id="soapLabels" th:value="${labelsAsJson}">
+                                <input type="hidden" id="soapRates" th:value="${ratesAsJson}">
+                            </div>
+
+
+                            <div th:if="${labels}">
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        location.hash = "#soap";
+                                    });
+                                </script>
+                            </div>
+
+
                         </article>
 
 						<!-- About -->
@@ -145,6 +188,25 @@
                             <table id="historyTable" border="1" style="margin-top:15px;">
                                 <tr><th>Időpont</th><th>Záróár</th></tr>
                             </table>
+                        </article>
+
+                        <article id="forex-open">
+                            <h2 class="major">Forex – Pozíció nyitás</h2>
+
+                            <label>Instrumentum:</label>
+                            <select id="openInstrument">
+                                <option value="EUR_USD">EUR/USD</option>
+                                <option value="GBP_USD">GBP/USD</option>
+                                <option value="USD_JPY">USD/JPY</option>
+                                <option value="EUR_HUF">EUR/HUF</option>
+                            </select>
+
+                            <label>Mennyiség (pozitív: Long, negatív: Short):</label>
+                            <input id="openUnits" type="number" value="1000">
+
+                            <button id="btnOpen">Pozíció Nyitása</button>
+
+                            <div id="openResult" style="margin-top:20px;"></div>
                         </article>
 
 
@@ -409,8 +471,11 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="/js/breakpoints.min.js"></script>
 			<script src="/js/util.js"></script>
 			<script src="/js/main.js"></script>
+            <script src="/js/SoapData.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="/js/ForexAccountData.js"></script>
             <script src="/js/ForexHistoryData.js"></script>
+            <script src="/js/ForexOpenData.js"></script>
             <script th:if="${scrollTo != null}">
             window.location.hash = /*[[${scrollTo}]]*/ '';
             </script>
