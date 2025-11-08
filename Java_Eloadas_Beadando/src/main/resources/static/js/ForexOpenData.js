@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 resultDiv.innerHTML = `
                 <p style="color:lime;">${data.status}</p>
                 <p>Order ID: ${data.orderId || ''}</p>
-                <p>Ár: ${data.filledPrice || ''}</p>
+                <p>Ár: ${data.filledPrice || '— még nem érhető el —'}</p>
             `;
             })
             .catch(err => {

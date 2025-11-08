@@ -294,7 +294,12 @@
 				// Close.
                 $('<div class="close">Close</div>')
                     .appendTo($this)
-                    .on('click', function() {
+                    .on('click', function()
+                    {
+                        const closeTradeId = document.getElementById("closeTradeId");
+                        const closeResult = document.getElementById("closeResult");
+                        if (closeTradeId) closeTradeId.value = "";
+                        if (closeResult) closeResult.innerHTML = "";
                         window.location.hash = '#';
                     });
 
