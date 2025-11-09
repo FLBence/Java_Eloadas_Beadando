@@ -9,6 +9,9 @@ import java.util.Map;
 public class ForexTradeService {
 
     private final ForexPriceService forexPriceService;
+    public Map<Long, Trade> getOpenTrades() {
+        return openTrades;
+    }
 
     // Ez egy egyszerű memória-alapú tároló (demo)
     private final Map<Long, Trade> openTrades = new HashMap<>();
@@ -17,9 +20,6 @@ public class ForexTradeService {
     public ForexTradeService(ForexPriceService forexPriceService) {
         this.forexPriceService = forexPriceService;
 
-        // Demo adat: nyitott trade
-        openTrades.put(1L, new Trade(1L, "EUR/USD", 1000, 1.0760, false, 0.0));
-        openTrades.put(2L, new Trade(2L, "GBP/USD", 2000, 1.2510, false, 0.0));
     }
 
     // --- Nyitás (korábbi funkcióhoz) ---

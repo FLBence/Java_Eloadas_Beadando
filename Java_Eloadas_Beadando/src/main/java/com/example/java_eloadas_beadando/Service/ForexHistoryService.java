@@ -16,7 +16,7 @@ public class ForexHistoryService {
 
 
     private static final String URL = "https://api-fxpractice.oanda.com";
-    private static final String TOKEN = "02111978fe023333a51c5a2d558825eb-e460c15f3f86b734e333e94e1032e819";
+    private static final String TOKEN = "aa1995990e625e7188557f4c7a5f9b0d-614a67cdaecdeb9a2a3290356550b1cf";
 
     public List<Map<String, String>> getHistory(String instrument, String granularity) {
 

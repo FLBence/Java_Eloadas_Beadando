@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ForexAccountService {
     private static final String API_URL = "https://api-fxpractice.oanda.com";
-    private static final String ACCESS_TOKEN = "02111978fe023333a51c5a2d558825eb-e460c15f3f86b734e333e94e1032e819";
-    private static final String ACCOUNT_ID = "101-004-37603372-002";
+    private static final String ACCESS_TOKEN = "aa1995990e625e7188557f4c7a5f9b0d-614a67cdaecdeb9a2a3290356550b1cf";
+    private static final String ACCOUNT_ID = "101-004-37623364-001";
 
     public AccountSummary getAccountSummary() throws Exception {
         Context ctx = new Context(API_URL, ACCESS_TOKEN);

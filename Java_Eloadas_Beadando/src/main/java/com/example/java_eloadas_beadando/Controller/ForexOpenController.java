@@ -1,58 +1,75 @@
 package com.example.java_eloadas_beadando.Controller;
 
-import com.oanda.v20.Context;
-import com.oanda.v20.ContextBuilder;
-import com.oanda.v20.account.AccountID;
-import com.oanda.v20.order.*;
-import com.oanda.v20.primitives.InstrumentName;
+import com.example.java_eloadas_beadando.Service.ForexTradeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestController
 public class ForexOpenController {
 
-    private static final String API_URL = "https://api-fxpractice.oanda.com";
-    private static final String ACCESS_TOKEN = "02111978fe023333a51c5a2d558825eb-e460c15f3f86b734e333e94e1032e819";
-    private static final String ACCOUNT_ID = "101-004-37603372-002";
+    private final ForexTradeService forexTradeService;
+
+    @Autowired
+    public ForexOpenController(ForexTradeService forexTradeService) {
+        this.forexTradeService = forexTradeService;
+    }
 
     @PostMapping("/forex-open")
-    public Map<String, String> openPosition(@RequestBody Map<String, String> req) {
-
-        String instrument = req.get("instrument");
-        int units = Integer.parseInt(req.get("units"));
-
+    public OpenResponse openTrade(@RequestBody OpenRequest request) {
         try {
-            Context ctx = new ContextBuilder(API_URL)
-                    .setToken(ACCESS_TOKEN)
-                    .setApplication("ForexOpen")
-                    .build();
+            var trade = forexTradeService.openTrade(request.getInstrument(), request.getUnits());
 
-            OrderCreateRequest orderReq = new OrderCreateRequest(new AccountID(ACCOUNT_ID));
-
-            MarketOrderRequest marketOrder = new MarketOrderRequest();
-            marketOrder.setInstrument(new InstrumentName(instrument));
-            marketOrder.setUnits(units);
-            orderReq.setOrder(marketOrder);
-
-            OrderCreateResponse resp = ctx.order.create(orderReq);
-
-            var respTx = resp.getOrderCreateTransaction();
-            var fill = resp.getOrderFillTransaction();
-
-            Map<String, String> result = new LinkedHashMap<>();
-            result.put("status", "Sikeres nyitás!");
-            result.put("orderId", respTx.getId().toString());
-            result.put("price", fill != null ? fill.getPrice().toString() : "N/A");
-
-            return result;
+            return new OpenResponse(
+                    "Pozíció sikeresen nyitva!",
+                    trade.getTradeId(),
+                    trade.getInstrument(),
+                    trade.getOpenPrice(),
+                    "OK"
+            );
 
         } catch (Exception e) {
-            Map<String, String> error = new LinkedHashMap<>();
-            error.put("status", "Hiba történt");
-            error.put("details", e.getMessage());
-            return error;
+            return new OpenResponse(
+                    "Hiba történt: " + e.getMessage(),
+                    0,
+                    request.getInstrument(),
+                    0.0,
+                    "HIBA"
+            );
         }
+    }
+
+    // --- DTO-k ---
+
+    public static class OpenRequest {
+        private String instrument;
+        private int units;
+
+        public String getInstrument() { return instrument; }
+        public int getUnits() { return units; }
+
+        public void setInstrument(String instrument) { this.instrument = instrument; }
+        public void setUnits(int units) { this.units = units; }
+    }
+
+    public static class OpenResponse {
+        private String message;
+        private long tradeId;
+        private String instrument;
+        private double openPrice;
+        private String status;
+
+        public OpenResponse(String message, long tradeId, String instrument, double openPrice, String status) {
+            this.message = message;
+            this.tradeId = tradeId;
+            this.instrument = instrument;
+            this.openPrice = openPrice;
+            this.status = status;
+        }
+
+        public String getMessage() { return message; }
+        public long getTradeId() { return tradeId; }
+        public String getInstrument() { return instrument; }
+        public double getOpenPrice() { return openPrice; }
+        public String getStatus() { return status; }
     }
 }

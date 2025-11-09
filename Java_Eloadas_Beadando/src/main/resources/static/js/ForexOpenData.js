@@ -1,16 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("btnOpen");
-    if (!btn) {
-        console.log("btnOpen NEM található!");
-        return;
-    }
+    if (!btn) return;
 
     btn.addEventListener("click", function () {
-        const instrument = document.getElementById("openInstrument").value;
-        const units = document.getElementById("openUnits").value;
-        const resultDiv = document.getElementById("openResult");
 
-        console.log("Küldés indul...");
+        const instrument = document.getElementById("openInstrument").value;
+        const units = parseInt(document.getElementById("openUnits").value);
+        const div = document.getElementById("openResult");
+
+        div.innerHTML = "Küldés folyamatban...";
 
         fetch("/forex-open", {
             method: "POST",
@@ -22,16 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(r => r.json())
             .then(data => {
-                console.log("Válasz érkezett:", data);
-                resultDiv.innerHTML = `
-                <p style="color:lime;">${data.status}</p>
-                <p>Order ID: ${data.orderId || ''}</p>
-                <p>Ár: ${data.filledPrice || '— még nem érhető el —'}</p>
-            `;
+                div.innerHTML =
+                    `<p style="color:lime;">${data.message}</p>
+                     <p>Trade ID: ${data.tradeId}</p>
+                     <p>Nyitási ár: ${data.openPrice}</p>`;
             })
             .catch(err => {
-                console.log("Fetch hiba:", err);
-                resultDiv.innerHTML = `<p style="color:red;">Hiba: ${err}</p>`;
+                div.innerHTML = `<p style="color:red;">Hiba: ${err}</p>`;
             });
     });
 });
